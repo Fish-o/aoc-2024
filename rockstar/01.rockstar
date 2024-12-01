@@ -1,5 +1,4 @@
 Sort takes x
-  shout "SORTING..."
   Rock the result
   for something in x
     the lowest is 0
@@ -13,7 +12,6 @@ Sort takes x
     push the result x at the lowest
     x at the lowest is 99999999
   yeah
-  shout "DONE SORTING"
 Give back the result
 
 
@@ -35,8 +33,14 @@ yeah
 print AAA
 print BBB
 
+print "Sorting 1 of 2..."
 Let SAAA be Sort taking AAA
+
+print "Sorting  2 of 2..."
 Let SBBB be Sort taking BBB
+
+print "Sorting DONE!"
+print ""
 
 Part One takes x and y
   print "Computing result:"
@@ -57,6 +61,23 @@ Part One takes x and y
   Give back the sum
 yeah
 
-Let done be Part One taking SAAA, SBBB
-print "The final sum is: " plus done
+Part Two takes x and y
+  Rock frequencies
+  for the value in y
+    let prev be frequencies at the value
+    if prev is mysterious prev is 0
+    Put prev plus 1 into frequencies at the value
+  yeah
+  Let the result be 0
+  for the value in x
+    let the multiplier be frequencies at the value
+    if the multiplier is mysterious the multiplier is 0
+    cast the value with 10
+    let the part be the value times the multiplier
+    Put the result plus the part into the result
+  yeah
+Give back the result
+
+print "Part One: " plus Part One taking SAAA, SBBB
+print "Part Two: " plus Part Two taking SAAA, SBBB
 print "done"
