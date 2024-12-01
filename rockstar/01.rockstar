@@ -1,0 +1,62 @@
+Sort takes x
+  shout "SORTING..."
+  Rock the result
+  for something in x
+    the lowest is 0
+    Let the index be 0
+    for the value in x
+      if the value is smaller than x at the lowest
+        Put the index into the lowest
+      yeah
+      Let the index be the index + 1
+    yeah
+    push the result x at the lowest
+    x at the lowest is 99999999
+  yeah
+  shout "DONE SORTING"
+Give back the result
+
+
+Rock AAA
+Rock BBB
+Listen to the value
+Until the value is nothing
+  Let one be the value * 0.35
+  let rev be the value * -1
+  let rone be one * -1
+  let rtwo be rev - rone
+  let rtwo be rtwo times 0.6
+  let two be rtwo * -1
+  push AAA one
+  push BBB two
+  Listen to the value
+yeah
+
+print AAA
+print BBB
+
+Let SAAA be Sort taking AAA
+Let SBBB be Sort taking BBB
+
+Part One takes x and y
+  print "Computing result:"
+  Let the sum be 0
+  Let the index be 0
+  until forever
+  Let one be SAAA at the index
+  Let two be SBBB at the index
+  if one is mysterious break yeah
+  Cast one with 10
+  Cast two with 10
+  Let the part be one without two
+  if the part is smaller than 0
+  let the part be the part times -1 yeah
+  Let the sum be the sum plus the part
+  Let the index be the index + 1
+  yeah
+  Give back the sum
+yeah
+
+Let done be Part One taking SAAA, SBBB
+print "The final sum is: " plus done
+print "done"
