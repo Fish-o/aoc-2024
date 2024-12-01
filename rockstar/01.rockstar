@@ -36,7 +36,7 @@ print BBB
 print "Sorting 1 of 2..."
 Let SAAA be Sort taking AAA
 
-print "Sorting  2 of 2..."
+print "Sorting 2 of 2..."
 Let SBBB be Sort taking BBB
 
 print "Sorting DONE!"
