@@ -30,6 +30,7 @@ num-traits = "0.2.19"
 petgraph = "0.6.5"
 pico-args = "0.5.0"
 rayon = "1.10.0"
+regex = "1.11.1"
 tinyjson = "2.5.1"
 
 # Solution dependencies
