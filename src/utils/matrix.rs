@@ -536,7 +536,7 @@ impl<S: AsRef<str>> Matrix<S> {
             data: self
                 .data
                 .iter()
-                .map(|r| r.iter().map(|c| F::from_str(c.as_ref())).collect())
+                .map(|r| r.iter().map(|c| F::from_str(c.as_ref().trim())).collect())
                 .collect::<Result<_, _>>()?,
         })
     }

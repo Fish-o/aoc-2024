@@ -4,7 +4,6 @@ use num::Integer;
 use rayon::prelude::*;
 use std::{
     collections::HashMap,
-    f32::consts::E,
     fmt::{Debug, Display},
 };
 advent_of_code::solution!(1);
@@ -41,14 +40,14 @@ pub fn part_two(input: &str) -> Option<usize> {
 
     a.1.sort();
     let h: HashMap<usize, usize> = HashMap::new();
-    let (v, c, mut h) = a.1.iter().fold((0, 0, h), |(x, mut c, mut h), v| {
+    let (v, c, mut h) = a.1.iter().fold((0, 0, h), |(x, mut count, mut h), v| {
         if &x == v {
-            c += 1;
+            count += 1;
         } else {
-            h.insert(x, c);
-            c = 1;
+            h.insert(x, count);
+            count = 1;
         }
-        (*v, c, h)
+        (*v, count, h)
     });
     h.insert(v, c);
     Some(a.0.iter().map(|v| v * h.get(v).or(Some(&0)).unwrap()).sum())
