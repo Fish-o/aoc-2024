@@ -1,0 +1,104 @@
+Map takes the function and the array
+  Rock the result
+  For an element in the array
+    Let the output be the function taking an element
+    Push the result the output
+  yeah
+Give back the result
+
+Fold takes the result and the function and the array
+  For an element in the array
+    Let the output be the function taking the result, an element
+    Put the output into the result
+  yeah
+Give back the result
+
+Filter takes the function and the array
+  Rock the result
+  For an element in the array
+    If the function taking an element
+      Push the result an element
+  yeah baby
+Give back the result
+
+Zip takes the array and the list
+  Rock the result
+  Let the index be 0
+  until forever
+    Let the first be the array at the index
+    Let the second be the list at the index
+    if the first is mysterious or the second is mysterious break
+    Rock the element with the first, the second
+    Push the result the element
+    Put the element without the element in the element
+    build the index up
+  yeah
+Give back the result
+
+Tail takes the array
+  Rock the result
+  Let the index be 1
+  until the array at the index is mysterious
+    Push the result the array at the index
+    build the index up
+  yeah
+Give back the result
+
+Init takes the array
+  Rock the result
+  Let the index be 0
+  until the array at the index + 1 is mysterious
+    Push the result the array at the index
+    build the index up
+  yeah
+Give back the result
+
+Slice takes the array and the start and the end
+  Rock the result
+  let the index be the start
+  until the index is mysterious or the index is the end
+    Push the result the array at the index
+    build the index up
+  yeah
+Give back the result
+
+NTuples takes the array, n
+  Rock the result
+  Let the index be 0
+  until the array at the index plus n - 1 is mysterious
+    Let the end be the index plus n
+    Let the element be Slice taking the array, the index, the end
+    Push the result the element
+    Build the index up
+  yeah
+Give back the result
+
+
+
+
+
+
+
+IsOdd takes the number
+  Let rounded be the number over 2
+  Turn down rounded
+  Let rounded be rounded times 2
+Give back the number isn't rounded
+
+Sum takes x and y giving x with y
+
+Double takes the number giving the number times 2
+
+Rock the list with 1,2,3,4,5,6
+
+Shout Sum taking 1, 4
+Shout the list
+Shout Map taking Double, the list
+Shout Fold taking 0, Sum, the list
+Shout Filter taking IsOdd, the list
+Shout Zip taking the list, the list
+Shout Init taking the list
+Shout Tail taking the list
+Shout Slice taking the list, 2, 4
+Shout NTuples taking the list, 2
+Shout NTuples taking the list, 3
