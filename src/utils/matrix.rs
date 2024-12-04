@@ -52,6 +52,25 @@ pub struct Matrix<E> {
     data: Vec<Vec<E>>,
 }
 impl<E> Matrix<E> {
+    pub fn diagonals(&self) -> (Vec<Vec<&E>>, Vec<Vec<&E>>) {
+        let mut t1 = vec![];
+        let mut t2 = vec![];
+        for c_start in (-(self.height() as isize))..((self.width() + self.height()) as isize) {
+            let mut d1 = vec![];
+            let mut d2 = vec![];
+            for r in 0..(self.height() as isize) {
+                if c_start + r >= 0 && c_start + r < self.height() as isize {
+                    d1.push(self.get((c_start + r) as usize, r as usize));
+                }
+                if c_start - r >= 0 && c_start - r < self.height() as isize {
+                    d2.push(self.get((c_start - r) as usize, r as usize));
+                }
+            }
+            t1.push(d1);
+            t2.push(d2);
+        }
+        (t1, t2)
+    }
     pub fn insert_row(&mut self, at: usize, row: Vec<E>) {
         assert_eq!(row.len(), self.width());
         self.data.insert(at, row);
