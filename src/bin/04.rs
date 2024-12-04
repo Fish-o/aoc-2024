@@ -36,7 +36,6 @@ pub fn part_one(input: &str) -> Option<usize> {
         })
         .count();
     let mut diags = m.diagonals();
-    println!("{diags:?}");
     diags.0.append(&mut diags.1);
     let d = diags
         .0
@@ -53,7 +52,6 @@ pub fn part_one(input: &str) -> Option<usize> {
         })
         .count();
 
-    println!("{r} {c} {d}");
     Some(d + c + r)
 }
 

@@ -21,10 +21,12 @@ I am using [this template repository](https://github.com/fspoettel/advent-of-cod
 
 | Day | Part 1 | Part 2 |
 | :---: | :---: | :---:  |
-| [Day 1](./src/bin/01.rs) | `54.8µs` | `72.2µs` |
-| [Day 2](./src/bin/02.rs) | `97.2µs` | `275.4µs` |
+| [Day 1](./src/bin/01.rs) | `56.2µs` | `73.8µs` |
+| [Day 2](./src/bin/02.rs) | `99.4µs` | `281.9µs` |
+| [Day 3](./src/bin/03.rs) | `10.4ms` | `10.6ms` |
+| [Day 4](./src/bin/04.rs) | `1.5ms` | `725.7µs` |
 
-**Total: 0.50ms**
+**Total: 23.74ms**
 <!--- benchmarking table --->
 
 ---
