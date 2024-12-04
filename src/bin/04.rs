@@ -58,7 +58,34 @@ pub fn part_one(input: &str) -> Option<usize> {
 }
 
 pub fn part_two(input: &str) -> Option<usize> {
-    None
+    let m = Matrix::from_grid(input);
+    let r = m
+        .enumerate()
+        .iter()
+        .filter(|(p, c)| {
+            if c != &&"A".to_owned() {
+                return false;
+            }
+            let (r, c) = p.get_rc();
+            if r < 1 || c < 1 || r + 1 >= m.height() || c + 1 >= m.width() {
+                return false;
+            }
+            let tl = m.get(r - 1, c - 1).as_str();
+            let tr = m.get(r - 1, c + 1).as_str();
+            let bl = m.get(r + 1, c - 1).as_str();
+            let br = m.get(r + 1, c + 1).as_str();
+            let a = match (tl, br) {
+                ("M", "S") | ("S", "M") => true,
+                _ => false,
+            };
+            let b = match (tr, bl) {
+                ("M", "S") | ("S", "M") => true,
+                _ => false,
+            };
+            return a && b;
+        })
+        .count();
+    Some(r)
 }
 
 #[cfg(test)]
@@ -74,6 +101,6 @@ mod tests {
     #[test]
     fn test_part_two() {
         let result = part_two(&advent_of_code::template::read_file("examples", DAY));
-        assert_eq!(result, None);
+        assert_eq!(result, Some(9));
     }
 }
