@@ -17,7 +17,7 @@ pub enum Metric {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct Pos(usize, usize);
+pub struct Pos(pub usize, pub usize);
 impl Pos {
     pub fn from_rc(row: usize, col: usize) -> Self {
         Pos(row, col)
