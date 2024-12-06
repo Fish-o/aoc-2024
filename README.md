@@ -16,6 +16,7 @@ I am using [this template repository](https://github.com/fspoettel/advent-of-cod
 | [Day 3](https://adventofcode.com/2024/day/3) | ⭐ | ⭐ |
 | [Day 4](https://adventofcode.com/2024/day/4) | ⭐ | ⭐ |
 | [Day 5](https://adventofcode.com/2024/day/5) | ⭐ | ⭐ |
+| [Day 6](https://adventofcode.com/2024/day/6) | ⭐ | ⭐ |
 <!--- advent_readme_stars table --->
 
 <!--- benchmarking table --->
