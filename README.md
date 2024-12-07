@@ -25,15 +25,15 @@ I am using [this template repository](https://github.com/fspoettel/advent-of-cod
 
 | Day | Part 1 | Part 2 |
 | :---: | :---: | :---:  |
-| [Day 1](./src/bin/01.rs) | `56.2µs` | `79.5µs` |
-| [Day 2](./src/bin/02.rs) | `97.8µs` | `274.4µs` |
-| [Day 3](./src/bin/03.rs) | `10.4ms` | `10.4ms` |
-| [Day 4](./src/bin/04.rs) | `1.5ms` | `952.0µs` |
+| [Day 1](./src/bin/01.rs) | `55.2µs` | `85.3µs` |
+| [Day 2](./src/bin/02.rs) | `98.5µs` | `274.7µs` |
+| [Day 3](./src/bin/03.rs) | `208.7µs` | `239.8µs` |
+| [Day 4](./src/bin/04.rs) | `1.5ms` | `928.1µs` |
 | [Day 5](./src/bin/05.rs) | `1.1ms` | `2.1ms` |
-| [Day 6](./src/bin/06.rs) | `1.0ms` | `11.3ms` |
-| [Day 7](./src/bin/07.rs) | `129.2µs` | `191.8µs` |
+| [Day 6](./src/bin/06.rs) | `1.1ms` | `12.0ms` |
+| [Day 7](./src/bin/07.rs) | `176.6µs` | `229.6µs` |
 
-**Total: 39.58ms**
+**Total: 20.10ms**
 <!--- benchmarking table --->
 
 ---

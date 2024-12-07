@@ -67,6 +67,7 @@ pub fn permute2_rev(current: usize, vals: &[usize]) -> bool {
     }
     return permute2_rev(current - val, vals);
 }
+
 pub fn part_two(input: &str) -> Option<usize> {
     Some(
         input

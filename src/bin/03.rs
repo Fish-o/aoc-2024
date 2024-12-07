@@ -2,84 +2,47 @@ use advent_of_code::utils::*;
 use itertools::Itertools;
 use matrix::Matrix;
 use rayon::prelude::*;
+use regex::Regex;
 use std::fmt::{Debug, Display};
 advent_of_code::solution!(3);
 
 pub fn part_one(input: &str) -> Option<usize> {
     let mut sum = 0;
-    for i in 0.. {
-        match input.chars().skip(i).take(4).collect_tuple() {
-            Some(('m', 'u', 'l', '(')) => {}
-            None => break,
-            _ => continue,
-        }
-        let a = input
-            .chars()
-            .skip(i + 4)
-            .take_while(|c| c.is_numeric())
-            .collect::<String>();
-        if !matches!(input.chars().skip(i + 4 + a.len()).next(), Some(',')) {
+    let r = Regex::new(r"mul\((\d+),(\d+)\)").unwrap();
+    for (_, [n1, n2]) in r.captures_iter(input).map(|c| c.extract()) {
+        if n1.len() > 3 || n2.len() > 3 {
             continue;
         }
-        let b = input
-            .chars()
-            .skip(i + 4 + a.len() + 1)
-            .take_while(|c| c.is_numeric())
-            .collect::<String>();
-        if !matches!(
-            input.chars().skip(i + 4 + a.len() + 1 + b.len()).next(),
-            Some(')')
-        ) {
-            continue;
-        }
-        if a.len() < 1 || a.len() > 3 || b.len() < 1 || b.len() > 3 {
-            continue;
-        }
-        sum += a.parse::<usize>().unwrap() * b.parse::<usize>().unwrap();
+        sum += n1.parse::<usize>().unwrap() * n2.parse::<usize>().unwrap();
     }
     Some(sum)
 }
 
 pub fn part_two(input: &str) -> Option<usize> {
-    let mut sum = 0;
-    let mut skip = false;
-    for i in 0.. {
-        match input.chars().skip(i).take(7).collect_tuple() {
-            Some(('d', 'o', '(', ')', _, _, _)) => skip = false,
-            Some(('d', 'o', 'n', '\'', 't', '(', ')')) => skip = true,
-            Some(('m', 'u', 'l', '(', _, _, _)) => {}
+    let r1 = Regex::new(r"(?ms)do\(\)").unwrap();
+    let r2 = Regex::new(r"(?ms)don't\(\)").unwrap();
+    let r = Regex::new(r"mul\((\d+),(\d+)\)").unwrap();
+    let sum = r1
+        .split(input)
+        .into_iter()
+        .par_bridge()
+        .map(|e| {
+            let mut sum = 0;
+            let v = r2.split(e).next().unwrap();
+            for (_, [n1, n2]) in r.captures_iter(v).map(|c| c.extract()) {
+                if n1.len() > 3 || n2.len() > 3 {
+                    continue;
+                }
+                sum += n1.parse::<usize>().unwrap() * n2.parse::<usize>().unwrap();
+            }
+            sum
+        })
+        .sum();
 
-            None => break,
-            _ => continue,
-        }
-        let a = input
-            .chars()
-            .skip(i + 4)
-            .take_while(|c| c.is_numeric())
-            .collect::<String>();
-        if !matches!(input.chars().skip(i + 4 + a.len()).next(), Some(',')) {
-            continue;
-        }
-        let b = input
-            .chars()
-            .skip(i + 4 + a.len() + 1)
-            .take_while(|c| c.is_numeric())
-            .collect::<String>();
-        if !matches!(
-            input.chars().skip(i + 4 + a.len() + 1 + b.len()).next(),
-            Some(')')
-        ) {
-            continue;
-        }
-        if a.len() < 1 || a.len() > 3 || b.len() < 1 || b.len() > 3 {
-            continue;
-        }
-        if !skip {
-            sum += a.parse::<usize>().unwrap() * b.parse::<usize>().unwrap();
-        }
-    }
     Some(sum)
 }
+//84893551
+//11696166
 
 #[cfg(test)]
 mod tests {
