@@ -1,21 +1,26 @@
 use advent_of_code::utils::*;
 use itertools::Itertools;
+use num::{integer::Average, Integer};
 use rayon::prelude::*;
 use std::fmt::{Debug, Display};
 advent_of_code::solution!(7);
 
-pub fn permute(test: &usize, current: usize, vals: &[usize]) -> bool {
+pub fn permute_rev(current: usize, vals: &[usize]) -> bool {
     if vals.is_empty() {
-        return test == &current;
+        return current == 0;
     }
-    let val = &vals[0];
-    let vals = &vals[1..];
-
-    if permute(test, current + val, vals) || permute(test, current * val, vals) {
-        return true;
+    let len = vals.len();
+    let val = &vals[len - 1];
+    let vals = &vals[0..(len - 1)];
+    if current % val == 0 {
+        if permute_rev(current / val, vals) {
+            return true;
+        }
     }
-
-    return false;
+    if *val > current {
+        return false;
+    }
+    return permute_rev(current - val, vals);
 }
 
 pub fn part_one(input: &str) -> Option<usize> {
@@ -33,30 +38,34 @@ pub fn part_one(input: &str) -> Option<usize> {
                         .collect_vec(),
                 )
             })
-            .filter(|(a, b)| permute(a, 0, b))
+            .filter(|(a, b)| permute_rev(*a, b))
             .map(|(a, _)| a)
             .sum(),
     )
 }
 
-pub fn permute2(test: &usize, current: usize, vals: &[usize]) -> bool {
-    if current > *test || vals.is_empty() {
-        return test == &current;
+pub fn permute2_rev(current: usize, vals: &[usize]) -> bool {
+    if vals.is_empty() {
+        return current == 0;
     }
-    let val = &vals[0];
-    let vals = &vals[1..];
-    if permute2(test, current + val, vals)
-        || permute2(test, current * val, vals)
-        || permute2(
-            test,
-            current * (10_u64.pow(val.checked_ilog10().unwrap() + 1) as usize) + val,
-            vals,
-        )
-    {
-        return true;
+    let len = vals.len();
+    let val = &vals[len - 1];
+    let vals = &vals[0..(len - 1)];
+    if current % val == 0 {
+        if permute2_rev(current / val, vals) {
+            return true;
+        }
     }
-
-    return false;
+    let power = 10_u64.pow(val.ilog10() + 1) as usize;
+    if current % power == *val {
+        if permute2_rev(current / power, vals) {
+            return true;
+        }
+    }
+    if *val > current {
+        return false;
+    }
+    return permute2_rev(current - val, vals);
 }
 pub fn part_two(input: &str) -> Option<usize> {
     Some(
@@ -73,7 +82,7 @@ pub fn part_two(input: &str) -> Option<usize> {
                         .collect_vec(),
                 )
             })
-            .filter(|(a, b)| permute2(a, *&b[0], &b[1..]))
+            .filter(|(a, b)| permute2_rev(*a, b))
             .map(|(a, _)| a)
             .sum(),
     )
