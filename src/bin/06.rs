@@ -48,7 +48,7 @@ pub fn part_one(input: &str) -> Option<usize> {
     Some(positions.len())
 }
 
-pub fn get_points(input: &str) -> Vec<Pos> {
+pub fn get_points(input: &str) -> Vec<(Pos, Vec<(isize, isize)>)> {
     let m = Matrix::from_grid(input);
     let mut g_spot = m
         .enumerate()
@@ -85,26 +85,28 @@ pub fn get_points(input: &str) -> Vec<Pos> {
         }
         res.push(step);
     }
-    positions.keys().cloned().collect_vec()
+    positions.into_iter().collect_vec()
 }
 
 pub fn part_two(input: &str) -> Option<usize> {
     let m = Matrix::from_grid(input);
+    let real_g_spot = m
+        .enumerate()
+        .into_iter()
+        .find(|(p, c)| c == &"^")
+        .map(|(p, c)| p)
+        .unwrap();
     let count = get_points(input)
         .into_par_iter()
-        .filter(|obstruct_pos| {
-            let mut g_spot = m
-                .enumerate()
-                .into_iter()
-                .find(|(p, c)| c == &"^")
-                .map(|(p, c)| p)
-                .unwrap();
+        // .into_iter()
+        .filter(|(obstruct_pos, _)| {
+            let mut g_spot = real_g_spot.clone();
             let mut step = (-1, 0);
             if obstruct_pos == &g_spot {
                 return false;
             }
             let mut positions = HashMap::new();
-            positions.insert(g_spot.clone(), vec![step.clone()]);
+            let mut check_loop = false;
             loop {
                 let (r, c) = g_spot.get_rc();
                 let (r, c) = (((r as isize) + step.0), ((c as isize) + step.1));
@@ -113,7 +115,11 @@ pub fn part_two(input: &str) -> Option<usize> {
                 }
                 let mut new_pos = Pos::from_rc(r as usize, c as usize);
                 if let Some(c) = m.get_pos(&new_pos) {
-                    if c == &"#" || obstruct_pos == &new_pos {
+                    let hit_pos = obstruct_pos == &new_pos;
+                    if hit_pos {
+                        check_loop = true;
+                    }
+                    if c == &"#" || hit_pos {
                         step = match step {
                             (-1, 0) => (0, 1),
                             (0, 1) => (1, 0),
@@ -122,14 +128,16 @@ pub fn part_two(input: &str) -> Option<usize> {
                             _ => unreachable!(),
                         };
                         new_pos = g_spot.clone();
+                        if check_loop && step == (1, 0) {
+                            let res = positions.entry(g_spot.clone()).or_insert(vec![]);
+                            if res.contains(&step) {
+                                return true;
+                            }
+                            res.push(step);
+                        }
                     }
                 }
                 g_spot = new_pos;
-                let res = positions.entry(g_spot.clone()).or_insert(vec![]);
-                if res.contains(&step) {
-                    return true;
-                }
-                res.push(step);
             }
         })
         .count();

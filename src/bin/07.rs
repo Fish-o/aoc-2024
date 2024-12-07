@@ -11,12 +11,10 @@ pub fn permute(test: &usize, current: usize, vals: &[usize]) -> bool {
     let val = &vals[0];
     let vals = &vals[1..];
 
-    if permute(test, current + val, vals) {
+    if permute(test, current + val, vals) || permute(test, current * val, vals) {
         return true;
     }
-    if permute(test, current * val, vals) {
-        return true;
-    }
+
     return false;
 }
 
@@ -36,15 +34,13 @@ pub fn part_one(input: &str) -> Option<usize> {
                 )
             })
             .filter(|(a, b)| permute(a, 0, b))
-            .map(|(a, b)| a)
+            .map(|(a, _)| a)
             .sum(),
     )
 }
+
 pub fn permute2(test: &usize, current: usize, vals: &[usize]) -> bool {
-    if current > *test {
-        return false;
-    }
-    if vals.is_empty() {
+    if current > *test || vals.is_empty() {
         return test == &current;
     }
     let val = &vals[0];
@@ -78,7 +74,7 @@ pub fn part_two(input: &str) -> Option<usize> {
                 )
             })
             .filter(|(a, b)| permute2(a, *&b[0], &b[1..]))
-            .map(|(a, b)| a)
+            .map(|(a, _)| a)
             .sum(),
     )
 }
