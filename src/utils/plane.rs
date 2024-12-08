@@ -2,6 +2,8 @@ use itertools::{sorted, Itertools};
 use num::{FromPrimitive, Rational64};
 use std::cmp::{max, min};
 
+use super::matrix::Pos;
+
 #[derive(PartialEq, PartialOrd, Ord, Eq, Clone, Hash)]
 pub struct Point {
     pub x: Rational64,
@@ -23,6 +25,10 @@ impl Point {
             x: Rational64::from_i64(x).unwrap(),
             y: Rational64::from_i64(y).unwrap(),
         }
+    }
+    pub fn from_pos(pos: &Pos) -> Point {
+        let (x, y) = pos.get_xy();
+        Point::from_xy(x as i64, y as i64)
     }
 }
 #[derive(PartialEq, Eq, PartialOrd, Ord, Clone)]
