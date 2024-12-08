@@ -45,39 +45,39 @@ pub fn part_two(input: &str) -> Option<usize> {
         .filter(|(_, c)| c != &".")
         .for_each(|(p, c)| points.entry(c).or_insert(vec![]).push(p));
 
-    let mut antinodes = HashSet::new();
-    for (_, px) in points {
-        px.iter().tuple_combinations::<(_, _)>().for_each(|(a, b)| {
-            let (ar, ac) = a.get_rc();
-            let (br, bc) = b.get_rc();
-            let (dr, dc) = (br as isize - ar as isize, bc as isize - ac as isize);
-            let (mut br2, mut bc2) = (br as isize, bc as isize);
-            let (mut ar2, mut ac2) = (ar as isize, ac as isize);
-            loop {
-                let a = !(ar2 < 0
-                    || ar2 >= m.height() as isize
-                    || ac2 < 0
-                    || ac2 >= m.width() as isize);
-                let b = !(br2 < 0
-                    || br2 >= m.height() as isize
-                    || bc2 < 0
-                    || bc2 >= m.width() as isize);
-                if a {
-                    antinodes.insert((ar2, ac2));
-                    (ar2, ac2) = (ar2 as isize - dr, ac2 as isize - dc);
+    let mut anti_nodes = HashSet::new();
+    points.into_values().for_each(|px| {
+        px.into_iter()
+            .tuple_combinations::<(_, _)>()
+            .for_each(|(Pos(ar, ac), Pos(br, bc))| {
+                let (dr, dc) = (br as isize - ar as isize, bc as isize - ac as isize);
+                let (mut br2, mut bc2) = (br as isize, bc as isize);
+                let (mut ar2, mut ac2) = (ar as isize, ac as isize);
+                loop {
+                    let a = !(ar2 < 0
+                        || ar2 >= m.height() as isize
+                        || ac2 < 0
+                        || ac2 >= m.width() as isize);
+                    let b = !(br2 < 0
+                        || br2 >= m.height() as isize
+                        || bc2 < 0
+                        || bc2 >= m.width() as isize);
+                    if a {
+                        anti_nodes.insert((ar2, ac2));
+                        (ar2, ac2) = (ar2 as isize - dr, ac2 as isize - dc);
+                    }
+                    if b {
+                        anti_nodes.insert((br2, bc2));
+                        (br2, bc2) = (br2 as isize + dr, bc2 as isize + dc);
+                    }
+                    if !a && !b {
+                        break;
+                    }
                 }
-                if b {
-                    antinodes.insert((br2, bc2));
-                    (br2, bc2) = (br2 as isize + dr, bc2 as isize + dc);
-                }
-                if !a && !b {
-                    break;
-                }
-            }
-        });
-    }
+            });
+    });
 
-    Some(antinodes.len())
+    Some(anti_nodes.len())
 }
 
 #[cfg(test)]
