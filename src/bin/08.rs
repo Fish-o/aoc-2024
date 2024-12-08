@@ -12,13 +12,12 @@ advent_of_code::solution!(8);
 pub fn part_one(input: &str) -> Option<usize> {
     let m = Matrix::from_grid(input.trim());
     let mut points = HashMap::new();
-    m.enumerate().into_iter().for_each(|(p, c)| {
-        if c != "." {
-            points.entry(c).or_insert(vec![]).push(p);
-        }
-    });
-    let mut antinodes = HashSet::new();
+    m.enumerate()
+        .into_iter()
+        .filter(|(_, c)| c != &".")
+        .for_each(|(p, c)| points.entry(c).or_insert(vec![]).push(p));
 
+    let mut antinodes = HashSet::new();
     for (_, px) in points {
         px.iter().tuple_combinations::<(_, _)>().for_each(|(a, b)| {
             let (ar, ac) = a.get_rc();
@@ -41,13 +40,12 @@ pub fn part_one(input: &str) -> Option<usize> {
 pub fn part_two(input: &str) -> Option<usize> {
     let m = Matrix::from_grid(input.trim());
     let mut points = HashMap::new();
-    m.enumerate().into_iter().for_each(|(p, c)| {
-        if c != "." {
-            points.entry(c).or_insert(vec![]).push(p);
-        }
-    });
-    let mut antinodes = HashSet::new();
+    m.enumerate()
+        .into_iter()
+        .filter(|(_, c)| c != &".")
+        .for_each(|(p, c)| points.entry(c).or_insert(vec![]).push(p));
 
+    let mut antinodes = HashSet::new();
     for (_, px) in points {
         px.iter().tuple_combinations::<(_, _)>().for_each(|(a, b)| {
             let (ar, ac) = a.get_rc();
