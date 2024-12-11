@@ -40,7 +40,6 @@ pub fn part_one(input: &str) -> Option<usize> {
             .sum(),
     )
 }
-
 pub fn sort2(v: &mut Vec<usize>, r: &Vec<(usize, usize)>) {
     let mut changed = true;
     while changed {
