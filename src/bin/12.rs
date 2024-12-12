@@ -55,19 +55,11 @@ pub fn part_one(input: &str) -> Option<usize> {
         true,
     );
     let mut regions = vec![];
-    for mut reg in regions_list {
+    for reg in regions_list {
         if reg.is_empty() {
             continue;
         }
-        // let mut positions = regions
-        //     .entry(m.get_pos(reg.first().unwrap()).unwrap())
-        //     .or_insert(vec![]);
         regions.push((m.get_pos(reg.first().unwrap()).unwrap(), reg));
-        // for pos in reg {
-        //     if !positions.contains(&pos) {
-        //         positions.push(pos);
-        //     }
-        // }
     }
 
     Some(
@@ -87,7 +79,6 @@ pub fn part_one(input: &str) -> Option<usize> {
                             .count()
                     })
                     .sum::<usize>();
-                println!("{region} {area}   {perimeter}   {}", area * perimeter);
                 area * perimeter
             })
             .sum::<usize>(),
@@ -96,10 +87,10 @@ pub fn part_one(input: &str) -> Option<usize> {
 
 pub fn part_two(input: &str) -> Option<usize> {
     let m = Matrix::from_grid(input.trim());
-    let positions = m.enumerate().into_iter().map(|(p, c)| p).collect_vec();
+    let positions = m.enumerate().into_iter().map(|(p, _)| p).collect_vec();
     let regions_list = m.flood_regions(
         &positions,
-        |m, p, r| {
+        |m, p, _| {
             let c = m.get_pos(p).unwrap();
             m.touching_positions(p)
                 .into_iter()
@@ -110,19 +101,11 @@ pub fn part_two(input: &str) -> Option<usize> {
         true,
     );
     let mut regions = vec![];
-    for mut reg in regions_list {
+    for reg in regions_list {
         if reg.is_empty() {
             continue;
         }
-        // let mut positions = regions
-        //     .entry(m.get_pos(reg.first().unwrap()).unwrap())
-        //     .or_insert(vec![]);
         regions.push((m.get_pos(reg.first().unwrap()).unwrap(), reg));
-        // for pos in reg {
-        //     if !positions.contains(&pos) {
-        //         positions.push(pos);
-        //     }
-        // }
     }
 
     Some(
