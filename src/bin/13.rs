@@ -54,10 +54,10 @@ pub fn solve(input: &str, two: bool) -> Option<usize> {
                 // println!("{x}");
                 let b = ai * x;
                 if check_fraction(b[(0, 0)]) && check_fraction(b[(1, 0)]) {
-                    println!("some: {b:?}");
+                    // println!("some: {b:?}");
                     Some(b)
                 } else {
-                    println!("NONE: {b:?}");
+                    // println!("NONE: {b:?}");
                     None
                 }
             })
