@@ -99,7 +99,6 @@ pub fn part_two(input: &str) -> Option<usize> {
             v: (vx.parse().unwrap(), vy.parse().unwrap()),
         })
         .collect_vec();
-    // r.iter_mut().for_each(|r| r.iterate(p));
     for i in 1.. {
         r.iter_mut().for_each(|r| r.iterate(1));
 

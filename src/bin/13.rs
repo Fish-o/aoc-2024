@@ -49,15 +49,10 @@ pub fn solve(input: &str, two: bool) -> Option<usize> {
                 } else {
                     Vector2::new(*x, *y)
                 };
-                // println!("{a}");
-                // println!("{ai}");
-                // println!("{x}");
                 let b = ai * x;
-                if check_fraction(b[(0, 0)]) && check_fraction(b[(1, 0)]) {
-                    // println!("some: {b:?}");
+                if floating_point_bullshit(b[(0, 0)]) && floating_point_bullshit(b[(1, 0)]) {
                     Some(b)
                 } else {
-                    // println!("NONE: {b:?}");
                     None
                 }
             })
@@ -69,9 +64,9 @@ pub fn solve(input: &str, two: bool) -> Option<usize> {
     )
 }
 
-const ACC: f64 = 0.0005;
-fn check_fraction(num: f64) -> bool {
-    (num as isize as f64 - num).abs() < ACC || (num as isize as f64 - num).abs() > (1.0 - ACC)
+const DELTA: f64 = 0.0005;
+fn floating_point_bullshit(num: f64) -> bool {
+    (num as isize as f64 - num).abs() < DELTA || (num as isize as f64 - num).abs() > (1.0 - DELTA)
 }
 pub fn part_two(input: &str) -> Option<usize> {
     solve(input, true)
