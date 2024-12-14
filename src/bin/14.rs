@@ -75,9 +75,6 @@ pub fn part_one(input: &str) -> Option<usize> {
         *m.get_mut(r, c) = m.get(r, c) + 1;
     });
 
-    println!("{m:?}");
-
-    println!("{tl}, {bl}, {tr}, {br}");
     Some(tl * tr * bl * br)
 }
 
@@ -103,7 +100,7 @@ pub fn part_two(input: &str) -> Option<usize> {
         })
         .collect_vec();
     // r.iter_mut().for_each(|r| r.iterate(p));
-    for i in 0.. {
+    for i in 1.. {
         r.iter_mut().for_each(|r| r.iterate(1));
 
         let mut m = base_m.clone();
@@ -111,16 +108,30 @@ pub fn part_two(input: &str) -> Option<usize> {
             let (r, c) = (r.p.1 as usize, r.p.0 as usize);
             *m.get_mut(r, c) = m.get(r, c) + 1;
         });
-        if m.enumerate().into_iter().all(|(_, e)| e <= &(1 as usize)) {
-            println!("{m}");
-            println!("Iteration: {i}");
-            thread::sleep(Duration::from_millis(3000));
+        if !m.enumerate().into_iter().all(|(_, e)| e <= &(1 as usize)) {
+            continue;
         }
+        if m.rows()
+            .into_iter()
+            .filter(|r| r.iter().filter(|p| ***p == 1).count() >= 31)
+            .count()
+            < 2
+            || m.columns()
+                .into_iter()
+                .filter(|r| r.iter().filter(|p| ***p == 1).count() >= 32)
+                .count()
+                < 2
+        {
+            continue;
+        }
+        // println!("{m}");
+        // println!("Iteration: {i}");
+        return Some(i);
     }
 
     // println!("{tl}, {bl}, {tr}, {br}");
     // Some(tl * tr * bl * br)
-    todo!()
+    unreachable!()
 }
 
 #[cfg(test)]
