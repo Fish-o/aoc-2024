@@ -4,7 +4,11 @@ use itertools::Itertools;
 use matrix::Matrix;
 use num::{integer::Average, Integer};
 use rayon::prelude::*;
-use std::fmt::{Debug, Display};
+use std::{
+    fmt::{Debug, Display},
+    thread,
+    time::Duration,
+};
 advent_of_code::solution!(14);
 
 struct Robot {
@@ -78,7 +82,45 @@ pub fn part_one(input: &str) -> Option<usize> {
 }
 
 pub fn part_two(input: &str) -> Option<usize> {
-    None
+    let mut m = Matrix::<usize>::new_empty(Y_MAX as usize, X_MAX as usize);
+    m.enumerate()
+        .iter()
+        .map(|(p, _)| p.clone())
+        .collect_vec()
+        .iter()
+        .for_each(|p| *m.get_pos_mut(&p).unwrap() = Some(0));
+    let base_m = m.sequence().unwrap().to_owned_values();
+
+    let mut r = input
+        .trim()
+        .lines()
+        .map(|l| l.trim().split_once(" ").unwrap())
+        .map(|(p, v)| (&p[2..], &v[2..]))
+        .map(|(p, v)| (p.split_once(",").unwrap(), v.split_once(",").unwrap()))
+        .map(|((px, py), (vx, vy))| Robot {
+            p: (px.parse().unwrap(), py.parse().unwrap()),
+            v: (vx.parse().unwrap(), vy.parse().unwrap()),
+        })
+        .collect_vec();
+    // r.iter_mut().for_each(|r| r.iterate(p));
+    for i in 0.. {
+        r.iter_mut().for_each(|r| r.iterate(1));
+
+        let mut m = base_m.clone();
+        r.iter().for_each(|r| {
+            let (r, c) = (r.p.1 as usize, r.p.0 as usize);
+            *m.get_mut(r, c) = m.get(r, c) + 1;
+        });
+        if m.enumerate().into_iter().all(|(_, e)| e <= &(1 as usize)) {
+            println!("{m}");
+            println!("Iteration: {i}");
+            thread::sleep(Duration::from_millis(3000));
+        }
+    }
+
+    // println!("{tl}, {bl}, {tr}, {br}");
+    // Some(tl * tr * bl * br)
+    todo!()
 }
 
 #[cfg(test)]
