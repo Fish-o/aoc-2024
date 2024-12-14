@@ -9,45 +9,49 @@ advent_of_code::solution!(13);
 pub fn part_one(input: &str) -> Option<usize> {
     solve(input, false)
 }
-pub fn solve(input: &str, two: bool) -> Option<usize> {
-    // 3 tokens for A
-    // 1 token for B
-    // x = a*xa + b*xb
-    // y = a*ya + b*yb
-    // (x) = (xa, xb)(a)
-    // (y) = (ya, yb)(b)
+pub fn part_two(input: &str) -> Option<usize> {
+    solve(input, true)
+}
 
+pub fn parse(input: &str) -> Vec<(f64, f64, f64, f64, f64, f64)> {
+    input
+        .trim()
+        .split("\n\n")
+        .map(|cm| {
+            let mut lines = cm.lines();
+            let a = lines.next().unwrap().split_once(":").unwrap().1.trim();
+            let b = lines.next().unwrap().split_once(":").unwrap().1.trim();
+            let xy = lines.next().unwrap().split_once(":").unwrap().1.trim();
+            let (ax, ay) = a.split_once(", ").unwrap();
+            let (bx, by) = b.split_once(", ").unwrap();
+            let (x, y) = xy.split_once(", ").unwrap();
+
+            type T = f64;
+            let (ax, ay) = (
+                &ax[2..].parse::<T>().unwrap(),
+                &ay[2..].parse::<T>().unwrap(),
+            );
+            let (bx, by) = (
+                &bx[2..].parse::<T>().unwrap(),
+                &by[2..].parse::<T>().unwrap(),
+            );
+            let (x, y) = (&x[2..].parse::<T>().unwrap(), &y[2..].parse::<T>().unwrap());
+            (*ax, *ay, *bx, *by, *x, *y)
+        })
+        .collect_vec()
+}
+pub fn solve(input: &str, two: bool) -> Option<usize> {
     Some(
-        input
-            .trim()
-            .split("\n\n")
-            .map(|cm| {
-                let mut lines = cm.lines();
-                let a = lines.next().unwrap().split_once(":").unwrap().1.trim();
-                let b = lines.next().unwrap().split_once(":").unwrap().1.trim();
-                let xy = lines.next().unwrap().split_once(":").unwrap().1.trim();
-                let (ax, ay) = a.split_once(", ").unwrap();
-                let (bx, by) = b.split_once(", ").unwrap();
-                let (x, y) = xy.split_once(", ").unwrap();
-                type T = f64;
-                let (ax, ay) = (
-                    &ax[2..].parse::<T>().unwrap(),
-                    &ay[2..].parse::<T>().unwrap(),
-                );
-                let (bx, by) = (
-                    &bx[2..].parse::<T>().unwrap(),
-                    &by[2..].parse::<T>().unwrap(),
-                );
-                let (x, y) = (&x[2..].parse::<T>().unwrap(), &y[2..].parse::<T>().unwrap());
-                let a = Matrix2::new(*ax, *bx, *ay, *by);
+        parse(input)
+            .into_iter()
+            .map(|(ax, bx, ay, by, x, y)| {
+                let a = Matrix2::new(ax, bx, ay, by);
                 let ai = a.try_inverse().unwrap();
 
-                // Ab = x
-                // b = Ax
                 let x = if two {
-                    Vector2::new(*x + 10000000000000.0, *y + 10000000000000.0)
+                    Vector2::new(x + 10000000000000.0, y + 10000000000000.0)
                 } else {
-                    Vector2::new(*x, *y)
+                    Vector2::new(x, y)
                 };
                 let b = ai * x;
                 if floating_point_bullshit(b[(0, 0)]) && floating_point_bullshit(b[(1, 0)]) {
@@ -67,9 +71,6 @@ pub fn solve(input: &str, two: bool) -> Option<usize> {
 const DELTA: f64 = 0.0005;
 fn floating_point_bullshit(num: f64) -> bool {
     (num as isize as f64 - num).abs() < DELTA || (num as isize as f64 - num).abs() > (1.0 - DELTA)
-}
-pub fn part_two(input: &str) -> Option<usize> {
-    solve(input, true)
 }
 
 #[cfg(test)]
